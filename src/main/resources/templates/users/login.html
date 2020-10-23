@@ -9,11 +9,11 @@
 
     <h2>Please Login:</h2>
 
-    <form method="post" th:object="${User}">
+    <form th:action="@{/users/login}" method="post" th:object="${User}">
         <lable for="username">Username:</lable>
-        <input type="text" id="username"/>
+        <input type="text" id="username" name="username"/>
         <lable for="password">Password:</lable>
-        <input type="password" id="password"/>
+        <input type="password" id="password" name="password"/>
         <input type="submit" value="Login"/>
     </form>
 
