@@ -11,6 +11,7 @@ import technicalblog.model.UserProfile;
 import technicalblog.service.PostService;
 import technicalblog.service.UserService;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +30,11 @@ public class UserController {
         return "users/login";
     }
 
-    @RequestMapping(value = "users/login" , method= RequestMethod.POST)
-    public String loginUser(User user) {
+    @RequestMapping(value = "users/login", method= RequestMethod.POST)
+    public String loginUser(User user, HttpSession session) {
         User existingUser = userService.login(user);
         if(existingUser != null) {
+            session.setAttribute("loggeduser", existingUser);
             return "redirect:/posts";
         }
         else {
@@ -57,12 +59,13 @@ public class UserController {
     }
 
     @RequestMapping(value="users/logout", method=RequestMethod.POST)
-    public String logout(Model model) {
+    public String logout(Model model, HttpSession session) {
+
+        session.invalidate();
 
         List<Post> posts = postService.getAllPosts();
 
         model.addAttribute("posts", posts);
-
         return "index";
     }
 }
